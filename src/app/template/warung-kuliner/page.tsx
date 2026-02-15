@@ -3,15 +3,17 @@
 import { motion } from 'framer-motion';
 import { MessageCircle, Star, Clock, TrendingUp, UtensilsCrossed } from 'lucide-react';
 import Link from 'next/link';
+import LazyImage from '@/components/LazyImage';
+import { WARUNG_KULINER_IMAGES } from '@/constants/imageUrls';
 
 const WarungKulinerTemplate = () => {
   const menu = [
-    { name: 'Nasi Kuning Khas', price: '15rb', icon: '🍛', bestseller: true },
-    { name: 'Ayam Bakar Madu', price: '25rb', icon: '🍗' },
-    { name: 'Soto Ayam', price: '12rb', icon: '🍲', bestseller: true },
-    { name: 'Perkedel Goreng', price: '8rb', icon: '🥔' },
-    { name: 'Es Cendol', price: '7rb', icon: '🍵' },
-    { name: 'Teh Hangat', price: '5rb', icon: '🫖' },
+    { name: 'Nasi Kuning Khas', price: '15rb', icon: '🍛', image: WARUNG_KULINER_IMAGES.nasiKuning, bestseller: true },
+    { name: 'Ayam Bakar Madu', price: '25rb', icon: '🍗', image: WARUNG_KULINER_IMAGES.ayamBakar },
+    { name: 'Soto Ayam', price: '12rb', icon: '🍲', image: WARUNG_KULINER_IMAGES.sotoAyam, bestseller: true },
+    { name: 'Perkedel Goreng', price: '8rb', icon: '🥔', image: WARUNG_KULINER_IMAGES.esCendol },
+    { name: 'Es Cendol', price: '7rb', icon: '🍧', image: WARUNG_KULINER_IMAGES.esCendol },
+    { name: 'Teh Hangat', price: '5rb', icon: '🫖', image: WARUNG_KULINER_IMAGES.teHangat },
   ];
 
   const reviews = [
@@ -38,12 +40,21 @@ const WarungKulinerTemplate = () => {
         </div>
       </motion.nav>
 
-      {/* Hero */}
-      <section className="pt-24 pb-16 px-4 sm:px-6 lg:px-8 mt-8">
+      {/* Hero with Background */}
+      <section className="pt-24 pb-16 px-4 sm:px-6 lg:px-8 mt-8 relative overflow-hidden">
+        <div className="absolute inset-0 z-0">
+          <LazyImage
+            src={WARUNG_KULINER_IMAGES.restaurantInterior}
+            alt="Warung Makan"
+            className="w-full h-96 opacity-10"
+            priority
+          />
+        </div>
+
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          className="max-w-4xl mx-auto text-center"
+          className="max-w-4xl mx-auto text-center relative z-10"
         >
           <span className="inline-block px-4 py-2 bg-orange-100 rounded-full text-sm font-semibold text-orange-600 mb-6">
             🍲 Masakan Rumahan Nikmat
@@ -71,7 +82,25 @@ const WarungKulinerTemplate = () => {
         </motion.div>
       </section>
 
-      {/* Menu Grid */}
+      {/* Hero Image Banner */}
+      <section className="px-4 sm:px-6 lg:px-8 pb-20">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          className="max-w-5xl mx-auto"
+        >
+          <div className="h-80 rounded-3xl overflow-hidden shadow-2xl border-4 border-white">
+            <LazyImage
+              src={WARUNG_KULINER_IMAGES.restaurantInterior}
+              alt="Warung Makan Interior"
+              className="w-full h-full"
+            />
+          </div>
+        </motion.div>
+      </section>
+
+      {/* Menu Grid with Images */}
       <section className="py-20 px-4 sm:px-6 lg:px-8 bg-white/50">
         <div className="max-w-6xl mx-auto">
           <h2 className="text-4xl font-bold text-center text-gray-900 mb-16">Menu Favorit</h2>
@@ -84,16 +113,27 @@ const WarungKulinerTemplate = () => {
                 transition={{ delay: idx * 0.05 }}
                 viewport={{ once: true }}
                 whileHover={{ y: -10 }}
-                className="p-8 bg-white rounded-2xl border-2 border-orange-200 hover:border-orange-400 transition-colors relative"
+                className="rounded-2xl overflow-hidden border-2 border-orange-200 hover:border-orange-400 transition-colors shadow-lg hover:shadow-xl bg-white relative"
               >
                 {item.bestseller && (
-                  <div className="absolute -top-4 -right-4 bg-red-500 text-white px-3 py-1 rounded-full text-xs font-bold">
+                  <div className="absolute -top-4 -right-4 bg-red-500 text-white px-3 py-1 rounded-full text-xs font-bold z-10">
                     ⭐ Bestseller
                   </div>
                 )}
-                <div className="text-5xl mb-4">{item.icon}</div>
-                <h3 className="text-xl font-bold text-gray-900 mb-2">{item.name}</h3>
-                <p className="text-2xl font-bold text-orange-600">{item.price}</p>
+                {/* Image */}
+                <div className="h-40 relative">
+                  <LazyImage
+                    src={item.image}
+                    alt={item.name}
+                    className="w-full h-full"
+                  />
+                </div>
+                {/* Content */}
+                <div className="p-6">
+                  <div className="text-3xl mb-2">{item.icon}</div>
+                  <h3 className="text-xl font-bold text-gray-900 mb-2">{item.name}</h3>
+                  <p className="text-2xl font-bold text-orange-600">{item.price}</p>
+                </div>
               </motion.div>
             ))}
           </div>
@@ -135,7 +175,14 @@ const WarungKulinerTemplate = () => {
         <div className="max-w-6xl mx-auto">
           <h2 className="text-4xl font-bold text-center text-gray-900 mb-16">Galeri Makanan</h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {['🍛', '🍗', '🍲', '🥔', '🍵', '🫖'].map((emoji, idx) => (
+            {[
+              WARUNG_KULINER_IMAGES.nasiKuning,
+              WARUNG_KULINER_IMAGES.ayamBakar,
+              WARUNG_KULINER_IMAGES.sotoAyam,
+              WARUNG_KULINER_IMAGES.kitchenWork,
+              WARUNG_KULINER_IMAGES.esCendol,
+              WARUNG_KULINER_IMAGES.diningArea,
+            ].map((image, idx) => (
               <motion.div
                 key={idx}
                 initial={{ opacity: 0, y: 20 }}
@@ -143,9 +190,13 @@ const WarungKulinerTemplate = () => {
                 transition={{ delay: idx * 0.1 }}
                 viewport={{ once: true }}
                 whileHover={{ scale: 1.05 }}
-                className="h-48 rounded-2xl bg-gradient-to-br from-orange-300 to-red-400 flex items-center justify-center text-7xl cursor-pointer"
+                className="h-48 rounded-2xl overflow-hidden shadow-lg border-2 border-orange-200 cursor-pointer"
               >
-                {emoji}
+                <LazyImage
+                  src={image}
+                  alt={`Galeri makanan ${idx + 1}`}
+                  className="w-full h-full"
+                />
               </motion.div>
             ))}
           </div>

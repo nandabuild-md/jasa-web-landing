@@ -3,19 +3,21 @@
 import { motion } from 'framer-motion';
 import { MessageCircle, MapPin, Star, Clock, Shield, Award } from 'lucide-react';
 import Link from 'next/link';
+import LazyImage from '@/components/LazyImage';
+import { JASA_SERVIS_IMAGES } from '@/constants/imageUrls';
 
 const JasaServisTemplate = () => {
   const services = [
-    { name: 'Service AC', price: 'Rp 150rb - 500rb', icon: '❄️' },
-    { name: 'Instalasi Listrik', price: 'Rp 200rb - 1jt', icon: '⚡' },
-    { name: 'Perbaikan Kulkas', price: 'Rp 100rb - 400rb', icon: '🧊' },
-    { name: 'Service Mesin Cuci', price: 'Rp 150rb - 600rb', icon: '🌊' },
+    { name: 'Service AC', price: 'Rp 150rb - 500rb', icon: '❄️', image: JASA_SERVIS_IMAGES.acService },
+    { name: 'Instalasi Listrik', price: 'Rp 200rb - 1jt', icon: '⚡', image: JASA_SERVIS_IMAGES.electricService },
+    { name: 'Perbaikan Kulkas', price: 'Rp 100rb - 400rb', icon: '🧊', image: JASA_SERVIS_IMAGES.acService },
+    { name: 'Service Mesin Cuci', price: 'Rp 150rb - 600rb', icon: '🌊', image: JASA_SERVIS_IMAGES.toolBox },
   ];
 
   const portfolios = [
-    { name: 'Hotel Mewah - AC Central', image: '🏨', desc: 'Perawatan sistem AC terpusat' },
-    { name: 'Kantor Corporate - Full Service', image: '🏢', desc: 'Maintenance rutin seluruh unit' },
-    { name: 'Rumah Sakit - Elektrik Medis', image: '🏥', desc: 'Instalasi standar kesehatan' },
+    { name: 'Hotel Mewah - AC Central', image: JASA_SERVIS_IMAGES.officeService, desc: 'Perawatan sistem AC terpusat' },
+    { name: 'Kantor Corporate - Full Service', image: JASA_SERVIS_IMAGES.workshop, desc: 'Maintenance rutin seluruh unit' },
+    { name: 'Rumah Sakit - Elektrik Medis', image: JASA_SERVIS_IMAGES.buildingWork, desc: 'Instalasi standar kesehatan' },
   ];
 
   const reviews = [
@@ -34,7 +36,7 @@ const JasaServisTemplate = () => {
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
-            <h1 className="text-2xl font-bold text-blue-600">⚙️ Jasa Servis</h1>
+            <h1 className="text-2xl font-bold text-blue-600">🔧 Jasa Servis</h1>
             <div className="flex gap-4">
               <Link href="/template" className="text-sm text-gray-600 hover:text-blue-600">
                 ← Kembali
@@ -44,12 +46,21 @@ const JasaServisTemplate = () => {
         </div>
       </motion.nav>
 
-      {/* Hero */}
-      <section className="pt-24 pb-16 px-4 sm:px-6 lg:px-8 mt-8">
+      {/* Hero with Background */}
+      <section className="pt-24 pb-16 px-4 sm:px-6 lg:px-8 mt-8 relative overflow-hidden">
+        <div className="absolute inset-0 z-0">
+          <LazyImage
+            src={JASA_SERVIS_IMAGES.acTechnician}
+            alt="Teknisi Profesional"
+            className="w-full h-96 opacity-10"
+            priority
+          />
+        </div>
+
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          className="max-w-4xl mx-auto text-center"
+          className="max-w-4xl mx-auto text-center relative z-10"
         >
           <span className="inline-block px-4 py-2 bg-blue-100 rounded-full text-sm font-semibold text-blue-600 mb-6">
             🔧 Ahli Jasa Servis Terpercaya
@@ -77,7 +88,25 @@ const JasaServisTemplate = () => {
         </motion.div>
       </section>
 
-      {/* Services Grid */}
+      {/* Hero Image */}
+      <section className="px-4 sm:px-6 lg:px-8 pb-20">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          className="max-w-5xl mx-auto"
+        >
+          <div className="h-80 rounded-3xl overflow-hidden shadow-2xl border-4 border-white">
+            <LazyImage
+              src={JASA_SERVIS_IMAGES.acTechnician}
+              alt="Teknisi Profesional Bekerja"
+              className="w-full h-full"
+            />
+          </div>
+        </motion.div>
+      </section>
+
+      {/* Services Grid with Images */}
       <section className="py-20 px-4 sm:px-6 lg:px-8 bg-white/50">
         <div className="max-w-6xl mx-auto">
           <h2 className="text-4xl font-bold text-center text-gray-900 mb-16">Layanan Kami</h2>
@@ -90,11 +119,22 @@ const JasaServisTemplate = () => {
                 transition={{ delay: idx * 0.1 }}
                 viewport={{ once: true }}
                 whileHover={{ y: -10 }}
-                className="p-8 bg-gradient-to-br from-blue-50 to-purple-50 rounded-2xl border-2 border-blue-200 hover:border-purple-300 transition-colors"
+                className="rounded-2xl overflow-hidden border-2 border-blue-200 hover:border-purple-300 transition-colors shadow-lg hover:shadow-xl"
               >
-                <div className="text-5xl mb-4">{service.icon}</div>
-                <h3 className="text-2xl font-bold text-gray-900 mb-2">{service.name}</h3>
-                <p className="text-lg font-semibold text-blue-600">{service.price}</p>
+                {/* Image */}
+                <div className="h-48 relative">
+                  <LazyImage
+                    src={service.image}
+                    alt={service.name}
+                    className="w-full h-full"
+                  />
+                </div>
+                {/* Content */}
+                <div className="p-8 bg-gradient-to-br from-blue-50 to-purple-50">
+                  <div className="text-5xl mb-4">{service.icon}</div>
+                  <h3 className="text-2xl font-bold text-gray-900 mb-2">{service.name}</h3>
+                  <p className="text-lg font-semibold text-blue-600">{service.price}</p>
+                </div>
               </motion.div>
             ))}
           </div>
@@ -131,7 +171,7 @@ const JasaServisTemplate = () => {
         </div>
       </section>
 
-      {/* Portfolio */}
+      {/* Portfolio with Images */}
       <section className="py-20 px-4 sm:px-6 lg:px-8 bg-white/50">
         <div className="max-w-6xl mx-auto">
           <h2 className="text-4xl font-bold text-center text-gray-900 mb-16">Proyek Kami</h2>
@@ -144,11 +184,17 @@ const JasaServisTemplate = () => {
                 transition={{ delay: idx * 0.1 }}
                 viewport={{ once: true }}
                 whileHover={{ y: -10 }}
-                className="rounded-2xl overflow-hidden border border-blue-200 bg-white"
+                className="rounded-2xl overflow-hidden border border-blue-200 bg-white shadow-lg hover:shadow-xl transition-all"
               >
-                <div className="h-48 bg-gradient-to-br from-blue-400 to-purple-500 flex items-center justify-center text-6xl">
-                  {portfolio.image}
+                {/* Image */}
+                <div className="h-48 relative">
+                  <LazyImage
+                    src={portfolio.image}
+                    alt={portfolio.name}
+                    className="w-full h-full"
+                  />
                 </div>
+                {/* Content */}
                 <div className="p-6">
                   <h3 className="text-xl font-bold text-gray-900 mb-2">{portfolio.name}</h3>
                   <p className="text-gray-600">{portfolio.desc}</p>

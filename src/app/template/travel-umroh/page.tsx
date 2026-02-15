@@ -3,6 +3,8 @@
 import { motion } from 'framer-motion';
 import { MessageCircle, Star, MapPin, Calendar, Users, Award } from 'lucide-react';
 import Link from 'next/link';
+import LazyImage from '@/components/LazyImage';
+import { TRAVEL_UMROH_IMAGES } from '@/constants/imageUrls';
 
 const TravelUmrohTemplate = () => {
   const packages = [
@@ -47,19 +49,19 @@ const TravelUmrohTemplate = () => {
       name: 'Ibu Fatimah',
       city: 'Surabaya',
       text: 'Perjalanan umroh pertama saya sangat berkesan. Guide sangat sabar dan profesional!',
-      image: '👩‍🦱',
+      image: TRAVEL_UMROH_IMAGES.womenGroup,
     },
     {
       name: 'Pak Muhammad',
       city: 'Jakarta',
       text: 'Pelayanan travel ini excellent. Dari awal konsultasi sampai pulang sangat terhandle dengan baik.',
-      image: '👨‍💼',
+      image: TRAVEL_UMROH_IMAGES.pilgrimGroup,
     },
     {
       name: 'Mbak Aisha',
       city: 'Bandung',
       text: 'Harga terjangkau tapi pelayanannya premium. Semua kebutuhan sudah terpenuhi dengan sempurna.',
-      image: '👩‍🦳',
+      image: TRAVEL_UMROH_IMAGES.familyGroup,
     },
   ];
 
@@ -81,23 +83,17 @@ const TravelUmrohTemplate = () => {
         </div>
       </motion.nav>
 
-      {/* Hero */}
+      {/* Hero with Background Image */}
       <section className="pt-24 pb-16 px-4 sm:px-6 lg:px-8 mt-8 relative overflow-hidden">
-        {/* Floating decorative elements */}
-        <motion.div
-          animate={{ y: [0, -20, 0] }}
-          transition={{ duration: 4, repeat: Infinity }}
-          className="absolute top-10 right-10 text-6xl opacity-20"
-        >
-          ✈️
-        </motion.div>
-        <motion.div
-          animate={{ y: [0, 20, 0] }}
-          transition={{ duration: 5, repeat: Infinity }}
-          className="absolute bottom-10 left-10 text-6xl opacity-20"
-        >
-          🕌
-        </motion.div>
+        {/* Background image */}
+        <div className="absolute inset-0 z-0">
+          <LazyImage
+            src={TRAVEL_UMROH_IMAGES.kaabah}
+            alt="Kaabah Mekah"
+            className="w-full h-96 opacity-20"
+            priority
+          />
+        </div>
 
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -127,6 +123,24 @@ const TravelUmrohTemplate = () => {
             <MessageCircle size={20} />
             Konsultasi Gratis
           </motion.a>
+        </motion.div>
+      </section>
+
+      {/* Hero Image Banner */}
+      <section className="px-4 sm:px-6 lg:px-8 pb-20">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          className="max-w-5xl mx-auto"
+        >
+          <div className="h-80 rounded-3xl overflow-hidden shadow-2xl border-4 border-white">
+            <LazyImage
+              src={TRAVEL_UMROH_IMAGES.medina}
+              alt="Masjid Nabawi Madinah"
+              className="w-full h-full"
+            />
+          </div>
         </motion.div>
       </section>
 
@@ -193,8 +207,44 @@ const TravelUmrohTemplate = () => {
         </div>
       </section>
 
-      {/* Itinerary Preview */}
+      {/* Hotel Gallery */}
       <section className="py-20 px-4 sm:px-6 lg:px-8">
+        <div className="max-w-7xl mx-auto">
+          <h2 className="text-4xl font-bold text-center text-gray-900 mb-16">Hotel & Akomodasi</h2>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {[
+              { name: 'Hotel Mekah Bintang 3', img: TRAVEL_UMROH_IMAGES.hotelMekah1 },
+              { name: 'Hotel Madinah Bintang 3', img: TRAVEL_UMROH_IMAGES.hotelMedina },
+              { name: 'Hotel Eksklusif Bintang 4', img: TRAVEL_UMROH_IMAGES.hotelMekah2 },
+            ].map((hotel, idx) => (
+              <motion.div
+                key={idx}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ delay: idx * 0.1 }}
+                viewport={{ once: true }}
+                whileHover={{ y: -10 }}
+                className="rounded-2xl overflow-hidden shadow-lg border border-emerald-200"
+              >
+                <div className="h-48 relative">
+                  <LazyImage
+                    src={hotel.img}
+                    alt={hotel.name}
+                    className="w-full h-full"
+                  />
+                </div>
+                <div className="p-6 bg-white">
+                  <h3 className="text-xl font-bold text-gray-900">{hotel.name}</h3>
+                  <p className="text-emerald-600 font-semibold">Nyaman & Terjangkau</p>
+                </div>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Itinerary Preview */}
+      <section className="py-20 px-4 sm:px-6 lg:px-8 bg-white/50">
         <div className="max-w-6xl mx-auto">
           <h2 className="text-4xl font-bold text-center text-gray-900 mb-16">Itinerary Singkat</h2>
           <div className="space-y-4">
@@ -226,7 +276,7 @@ const TravelUmrohTemplate = () => {
       </section>
 
       {/* Why Us */}
-      <section className="py-20 px-4 sm:px-6 lg:px-8 bg-white/50">
+      <section className="py-20 px-4 sm:px-6 lg:px-8">
         <div className="max-w-6xl mx-auto">
           <h2 className="text-4xl font-bold text-center text-gray-900 mb-16">Mengapa Pilih Kami?</h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
@@ -255,8 +305,8 @@ const TravelUmrohTemplate = () => {
         </div>
       </section>
 
-      {/* Testimonials */}
-      <section className="py-20 px-4 sm:px-6 lg:px-8">
+      {/* Testimonials with Images */}
+      <section className="py-20 px-4 sm:px-6 lg:px-8 bg-white/50">
         <div className="max-w-6xl mx-auto">
           <h2 className="text-4xl font-bold text-center text-gray-900 mb-16">Testimoni Jemaah</h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
@@ -268,21 +318,29 @@ const TravelUmrohTemplate = () => {
                 transition={{ delay: idx * 0.1 }}
                 viewport={{ once: true }}
                 whileHover={{ y: -10 }}
-                className="p-8 bg-white rounded-2xl border border-emerald-200"
+                className="rounded-2xl overflow-hidden shadow-lg border border-emerald-200 bg-white"
               >
-                <div className="flex items-center gap-4 mb-4">
-                  <div className="text-4xl">{testimonial.image}</div>
+                {/* Image */}
+                <div className="h-48 relative">
+                  <LazyImage
+                    src={testimonial.image}
+                    alt={testimonial.name}
+                    className="w-full h-full"
+                  />
+                </div>
+                {/* Content */}
+                <div className="p-6">
+                  <div className="flex gap-1 mb-4">
+                    {[...Array(5)].map((_, i) => (
+                      <Star key={i} className="w-5 h-5 fill-yellow-400 text-yellow-400" />
+                    ))}
+                  </div>
+                  <p className="text-gray-700 italic mb-4">"{testimonial.text}"</p>
                   <div>
-                    <h4 className="font-bold text-gray-900">{testimonial.name}</h4>
+                    <p className="font-bold text-gray-900">{testimonial.name}</p>
                     <p className="text-sm text-gray-600">{testimonial.city}</p>
                   </div>
                 </div>
-                <div className="flex gap-1 mb-4">
-                  {[...Array(5)].map((_, i) => (
-                    <Star key={i} className="w-5 h-5 fill-yellow-400 text-yellow-400" />
-                  ))}
-                </div>
-                <p className="text-gray-700 italic">"{testimonial.text}"</p>
               </motion.div>
             ))}
           </div>
