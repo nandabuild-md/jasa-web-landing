@@ -6,7 +6,6 @@ import { motion } from 'framer-motion';
 interface LazyImageProps {
   src: string;
   alt: string;
-  placeholder?: string;
   className?: string;
   priority?: boolean;
 }
@@ -14,7 +13,6 @@ interface LazyImageProps {
 const LazyImage = ({
   src,
   alt,
-  placeholder = 'blur',
   className = '',
   priority = false,
 }: LazyImageProps) => {

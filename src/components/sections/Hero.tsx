@@ -29,20 +29,9 @@ const Hero = () => {
   return (
     <section className="min-h-screen flex items-center justify-center relative overflow-hidden pt-20">
       {/* Decorative elements */}
-      <motion.div
-        animate={{ float: 20 }}
-        className="absolute top-20 left-10 w-72 h-72 bg-pastel-pink rounded-full mix-blend-multiply filter blur-3xl opacity-30"
-      />
-      <motion.div
-        animate={{ float: 20 }}
-        transition={{ delay: 1 }}
-        className="absolute bottom-20 right-10 w-72 h-72 bg-pastel-purple rounded-full mix-blend-multiply filter blur-3xl opacity-30"
-      />
-      <motion.div
-        animate={{ float: 20 }}
-        transition={{ delay: 2 }}
-        className="absolute top-1/2 right-1/3 w-72 h-72 bg-pastel-blue rounded-full mix-blend-multiply filter blur-3xl opacity-30"
-      />
+      <div className="absolute top-20 left-10 w-72 h-72 bg-pastel-pink rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-float" />
+      <div className="absolute bottom-20 right-10 w-72 h-72 bg-pastel-purple rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-float" />
+      <div className="absolute top-1/2 right-1/3 w-72 h-72 bg-pastel-blue rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-float" />
 
       <motion.div
         variants={containerVariants}
