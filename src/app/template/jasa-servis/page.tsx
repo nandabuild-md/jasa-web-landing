@@ -1,7 +1,7 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import { MessageCircle, MapPin, Star, Clock, Shield, Award } from 'lucide-react';
+import { MessageCircle, Star, Clock, Shield, Award } from 'lucide-react';
 import Link from 'next/link';
 import LazyImage from '@/components/LazyImage';
 import { JASA_SERVIS_IMAGES } from '@/constants/imageUrls';

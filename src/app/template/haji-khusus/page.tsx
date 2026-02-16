@@ -4,7 +4,6 @@ import { motion } from 'framer-motion';
 import { MessageCircle, Star, Shield, Users, Award, Clock, ThumbsUp, CheckCircle, MapPin, Phone, Send } from 'lucide-react';
 import Link from 'next/link';
 import LazyImage from '@/components/LazyImage';
-import { TRAVEL_UMROH_IMAGES } from '@/constants/imageUrls';
 import { useState } from 'react';
 
 const HajiKhususTemplate = () => {
